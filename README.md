@@ -1,54 +1,92 @@
-# YanSnap
+<p align="center">
+  <img src="assets/icon/YanSnap-icon-256.png" width="128" height="128" alt="YanSnap 图标">
+</p>
 
-YanSnap 是一款面向 Windows 10 22H2 / Windows 11 x64 的轻量截图工具。双击程序后会驻留在系统托盘，并从右下角提示已在后台运行；程序不会因双击 EXE 立即截屏。程序纯本地运行，不登录、不联网、不上传、不记录截图历史。
+<h1 align="center">YanSnap</h1>
 
-## 功能
+<p align="center">
+  轻量、便携、纯本地的 Windows 截图与贴图工具。
+</p>
 
-- 单实例：重复启动只提示 YanSnap 已在后台运行，不重复创建进程或自动截屏
-- 默认全局快捷键 `F1`，支持单键或组合键，可在设置中修改
-- 虚拟桌面捕获，支持负坐标和跨显示器自由选区
-- 光标下顶层窗口识别与单击选择
-- 选区移动、八点缩放、尺寸标签和像素放大镜
+<p align="center">
+  <a href="https://github.com/Li2190158085/YanSnap/releases/latest"><img src="https://img.shields.io/github/v/release/Li2190158085/YanSnap?label=release" alt="GitHub Release"></a>
+  <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D4" alt="Windows 10 / 11">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/Li2190158085/YanSnap" alt="MIT License"></a>
+</p>
+
+<p align="center">
+  <a href="README.en.md">English</a> · 简体中文
+</p>
+
+YanSnap 面向希望“解压即用”的 Windows 用户：无需安装、无需账号，也不会上传截图。程序启动后驻留系统托盘，按 `F1` 即可截图，按 `F3` 可将剪贴板图片贴到屏幕。
+
+## 下载
+
+前往 [GitHub Releases](https://github.com/Li2190158085/YanSnap/releases/latest) 下载：
+
+```text
+YanSnap-*-win-x64-portable.zip
+```
+
+完整解压 ZIP，然后双击 `YanSnap.exe`。不要直接在压缩包预览窗口中运行。
+
+YanSnap 目前没有商业代码签名证书。Windows SmartScreen 可能在首次运行时显示“未知发布者”，这是未签名程序的系统提示。请只从本仓库的 Releases 页面下载，并可使用随版本提供的 `.sha256` 文件核对完整性。
+
+## 主要功能
+
+- 默认全局快捷键 `F1`，支持在设置中录入单键或组合键
+- 自由区域截图、窗口自动识别和跨显示器选区
+- 选区移动、八点缩放、尺寸提示和像素放大镜
 - 矩形、箭头、画笔、中文文字和真实像素马赛克
-- 标注撤销、重做与删除
-- 截图选区可直接“贴到屏幕”；也可按 `F3` 将剪贴板图片贴到屏幕
-- 贴图支持拖动、滚轮缩放、`Ctrl+滚轮` 调整透明度和右键菜单
-- 复制为 `CF_DIBV5`
-- WIC PNG 后台编码，支持中文和长路径
-- 默认动作可选“仅复制”或“复制并自动保存”
-- 可选随 Windows 登录自动启动，无需管理员权限
-- 托盘截图、打开保存目录、设置、关于和退出
-- INI 设置原子写入，损坏配置自动备份并回退默认值
+- 撤销、重做、删除、复制和 PNG 保存
+- 将当前选区直接贴到屏幕
+- 按 `F3` 将剪贴板图片贴到屏幕
+- 贴图拖动、缩放、透明度调节、隐藏和置顶
+- 可选复制后自动保存、包含鼠标指针和成功通知
+- 可选随 Windows 登录自动启动
+- 便携模式设置跟随程序目录迁移
+- 单实例运行，无账号、遥测、上传或自动更新
 
-## 使用
+## 快速开始
 
-1. 双击 `YanSnap.exe`，程序驻留托盘并显示“已在后台运行”通知。
-2. 按全局快捷键（默认 `F1`）或使用托盘“截图”进入截图遮罩。
-3. 拖动鼠标创建区域，或在拖动前单击高亮窗口。
-4. 选区建立后，可直接按 `Enter` 复制，也可使用选区附近的工具栏添加标注。
-5. 截图完成后程序继续留在托盘；鼠标移入托盘图标显示 `YanSnap`，右键可打开菜单。
+1. 双击 `YanSnap.exe`。程序会驻留托盘，不会立即开始截图。
+2. 按 `F1`，拖动选择区域，或单击高亮的窗口。
+3. 直接按 `Enter` 复制，或使用工具栏添加标注。
+4. 选择“贴到屏幕”可保留置顶贴图；右键贴图可查看更多操作。
+5. 右键系统托盘中的 YanSnap 图标，可打开截图、贴图、设置和退出菜单。
 
-工具栏会在鼠标滑入时显示高亮和中文提示。选择“贴到屏幕”后，选区会变成置顶贴图；拖动可移动，滚轮缩放，`Ctrl+滚轮` 调整透明度，双击隐藏，右键可复制、保存、恢复比例或关闭。
+常用快捷键：
 
-键盘操作：
-
-| 按键 | 操作 |
+| 快捷键 | 操作 |
 | --- | --- |
-| `Enter` / `Ctrl+C` | 复制并完成 |
-| `Ctrl+T` | 将当前选区贴到屏幕 |
+| `F1` | 开始截图，可在设置中修改 |
 | `F3` | 将剪贴板图片贴到屏幕 |
-| `Ctrl+S` | 选择路径并保存 PNG |
-| `Esc` | 取消当前标注或截图 |
+| `Enter` / `Ctrl+C` | 复制当前选区并完成 |
+| `Ctrl+S` | 保存为 PNG |
+| `Ctrl+T` | 将当前选区贴到屏幕 |
 | `Ctrl+Z` / `Ctrl+Y` | 撤销 / 重做 |
 | `Delete` | 删除当前标注 |
+| `Esc` | 取消当前操作或退出截图 |
 | 方向键 | 移动选区 1 个物理像素 |
 | `Shift+方向键` | 移动选区 10 个物理像素 |
 
-文字输入支持系统中文输入法、换行和粘贴；`Ctrl+Enter` 提交文字，`Esc` 取消当前文字。
+完整操作、设置、卸载和故障排查请参阅[用户指南](docs/user-guide.md)。
 
-## 构建
+## 隐私
 
-推荐使用 Visual Studio 2022 Build Tools、CMake 3.24 或更高版本：
+YanSnap 的截图、标注和编码均在本机完成。程序不包含账号、网络上传、遥测、广告、截图历史数据库或自动更新功能。
+
+只有在用户勾选“开机自动启动”并保存后，YanSnap 才会在当前用户的 Windows 登录启动项中写入程序路径；取消勾选会移除该启动项。
+
+更多信息见[安全说明](SECURITY.md)和[技术架构](docs/architecture.md)。
+
+## 从源码构建
+
+要求：
+
+- Windows 10 或 Windows 11 x64
+- Visual Studio 2022 Build Tools，包含 MSVC 和 Windows SDK
+- CMake 3.24 或更高版本
 
 ```powershell
 cmake -S . -B build -A x64
@@ -56,73 +94,38 @@ cmake --build build --config Release
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-MSVC Release 使用静态运行库 `/MT`。生成文件位于 `build\Release\YanSnap.exe`。
+MSVC Release 使用静态运行库 `/MT`。主程序输出到 `build\Release\YanSnap.exe`。
 
-仓库还提供 `build.ps1`。当本机存在 CMake 时脚本走上述 MSVC 流程；没有 CMake、但已安装 w64devkit/MinGW-w64 时，会自动使用 `g++` 生成静态链接的 `build\YanSnap.exe`：
+也可以使用仓库提供的脚本：
 
 ```powershell
 .\build.ps1 -Configuration Release -Clean
 ```
 
-项目不包含第三方运行时或 GUI 框架。链接组件均为 Windows 系统 API：User32、GDI、Shell、COM、WIC、DWM 和公共控件。
+架构、测试和发布流程分别见：
 
-## 便携版发布
+- [技术架构](docs/architecture.md)
+- [测试指南](docs/testing.md)
+- [发布指南](docs/releasing.md)
 
-生成可直接分发的 ZIP：
+## 参与贡献
 
-```powershell
-.\package.ps1 -Version 1.0.0 -Configuration Release
-```
+欢迎提交缺陷报告、兼容性反馈和范围明确的改进。开始编码前请阅读[贡献指南](CONTRIBUTING.md)，安全问题请按[安全策略](SECURITY.md)私下报告。
 
-输出位于 `release\YanSnap-1.0.0-win-x64-portable.zip`。接收者只需完整解压并双击 `YanSnap.exe`，无需安装或管理员权限。ZIP 中的 `portable.flag` 会让设置保存在程序目录的 `config.ini`；移动或删除整个目录即可迁移或卸载。详细流程见[便携版发布指南](docs/release-guide.md)。
-
-## 设置
-
-设置保存在：
-
-```text
-%LocalAppData%\YanSnap\settings.ini
-```
-
-便携包中存在 `portable.flag` 时，设置改为保存在 EXE 同目录的 `config.ini`。
-
-支持修改全局快捷键、默认完成动作、保存目录、成功通知、是否包含鼠标指针及是否开机自动启动。快捷键框会自动识别实际按下的单键或组合键；若快捷键已被其他程序占用，设置窗口会提示并保留原快捷键。
-
-勾选“开机自动启动”并保存后，YanSnap 会在当前用户的 Windows 登录启动项中记录当前 EXE 路径，不需要管理员权限。取消勾选并保存会移除该启动项；便携目录移动后，重新启动 YanSnap 会自动更新已启用的启动路径。
-
-默认截图目录是系统“图片”目录下的 `Screenshots`，文件名为：
-
-```text
-Screenshot_yyyyMMdd_HHmmss.png
-```
-
-同一秒重名时自动追加 `_2`、`_3`。
-
-## 测试
-
-自动测试覆盖：
-
-- 负坐标几何、选区裁剪和边界移动
-- 快捷键解析
-- 五种标注合成、撤销/重做和马赛克不可逆像素块
-- 自由拖选、矩形标注、`CF_DIBV5` 复制和异步自动保存
-- 独立进程窗口识别，DWM 边界与复制尺寸一致
-- 选区贴图回调、剪贴板图片读取、贴图缩放和显隐
-
-本机 1920×1080 验证结果记录在 [人工测试清单](docs/manual-test-checklist.md)。
+项目坚持轻量、原生和本地优先。OCR、录屏、云上传、账号系统和大型 GUI 框架不属于当前核心范围。
 
 ## 已知限制
 
-- UAC 安全桌面不能由普通权限程序捕获。
-- DRM/系统保护内容可能为黑色。
-- 独占全屏游戏可能无法被 GDI 正确捕获。
-- HDR 桌面可能出现亮度或色彩偏差。
-- 第一版不包含 OCR、录屏、滚动截图、上传、历史数据库、插件和自动更新。
+- UAC 安全桌面无法由普通权限程序捕获
+- DRM 或系统保护内容可能显示为黑色
+- 部分独占全屏游戏可能无法被 GDI 正确捕获
+- HDR 桌面可能出现亮度或色彩差异
+- 当前仅提供 Windows x64 版本，界面语言为简体中文
 
-## 隐私
+## 致谢
 
-源代码没有网络客户端、账号、遥测、上传或自动更新逻辑。截图像素仅在本进程内编辑，并只在用户明确复制或保存后离开进程内存。
+YanSnap 的交互体验受到 Snipaste、ShareX、Flameshot 和 Greenshot 等优秀工具启发。YanSnap 为独立实现，不包含这些项目的源代码或素材。
 
 ## 许可证
 
-[MIT](LICENSE)
+YanSnap 使用 [MIT License](LICENSE)。
