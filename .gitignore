@@ -1,0 +1,11 @@
+/build/
+/build-msvc/
+/dist/
+/release/
+/.vs/
+/out/
+/CMakeUserPresets.json
+config.ini
+*.corrupt_*
+*.user
+*.suo
