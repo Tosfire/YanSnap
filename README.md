@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Li2190158085/YanSnap/releases/latest"><img src="https://img.shields.io/github/v/release/Li2190158085/YanSnap?label=release" alt="GitHub Release"></a>
+  <a href="https://github.com/Tosfire/YanSnap/releases/latest"><img src="https://img.shields.io/github/v/release/Tosfire/YanSnap?label=release" alt="GitHub Release"></a>
   <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D4" alt="Windows 10 / 11">
   <a href="LICENSE"><img src="https://img.shields.io/github/license/Li2190158085/YanSnap" alt="MIT License"></a>
 </p>
