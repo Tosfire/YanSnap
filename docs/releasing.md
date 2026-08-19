@@ -1,6 +1,6 @@
 # YanSnap 发布指南
 
-本文面向项目维护者。普通用户只需从 [GitHub Releases](https://github.com/Li2190158085/YanSnap/releases/latest) 下载便携包。
+本文面向项目维护者。普通用户只需从 [GitHub Releases](https://github.com/Tosfire/YanSnap/releases/latest) 下载便携包。
 
 ## 版本准备
 

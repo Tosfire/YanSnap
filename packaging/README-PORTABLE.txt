@@ -5,7 +5,7 @@ YanSnap 是一款轻量、便携、纯本地的 Windows 截图与贴图工具。
 无需安装或登录，完整解压后即可运行。
 
 官方网站
-https://github.com/Li2190158085/YanSnap
+https://github.com/Tosfire/YanSnap
 
 
 开始使用
@@ -121,7 +121,7 @@ YanSnap 不会安装 Windows 服务或驱动。
 --------
 
 使用说明、最新版本和问题反馈：
-https://github.com/Li2190158085/YanSnap
+https://github.com/Tosfire/YanSnap
 
 安全问题请按照仓库中的 SECURITY.md 私下报告，不要在公开 Issue 中
 上传含有密码、令牌、私人聊天或其他敏感信息的截图。

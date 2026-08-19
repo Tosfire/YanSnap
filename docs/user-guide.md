@@ -4,7 +4,7 @@
 
 ## 下载与启动
 
-1. 打开 [YanSnap Releases](https://github.com/Li2190158085/YanSnap/releases/latest)。
+1. 打开 [YanSnap Releases](https://github.com/Tosfire/YanSnap/releases/latest)。
 2. 下载文件名类似 `YanSnap-1.1.0-win-x64-portable.zip` 的压缩包。
 3. 将 ZIP 完整解压到一个可长期保留的目录。
 4. 双击 `YanSnap.exe`。

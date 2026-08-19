@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Li2190158085/YanSnap/releases/latest"><img src="https://img.shields.io/github/v/release/Li2190158085/YanSnap?label=release" alt="GitHub Release"></a>
+  <a href="https://github.com/Tosfire/YanSnap/releases/latest"><img src="https://img.shields.io/github/v/release/Tosfire/YanSnap?label=release" alt="GitHub Release"></a>
   <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D4" alt="Windows 10 / 11">
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/Li2190158085/YanSnap" alt="MIT License"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/Tosfire/YanSnap" alt="MIT License"></a>
 </p>
 
 <p align="center">
@@ -24,7 +24,7 @@ YanSnap is designed for a simple workflow: download, unzip, and run. It requires
 
 ## Download
 
-Download `YanSnap-*-win-x64-portable.zip` from the [latest GitHub release](https://github.com/Li2190158085/YanSnap/releases/latest), extract the archive completely, and run `YanSnap.exe`.
+Download `YanSnap-*-win-x64-portable.zip` from the [latest GitHub release](https://github.com/Tosfire/YanSnap/releases/latest), extract the archive completely, and run `YanSnap.exe`.
 
 YanSnap is not currently signed with a commercial code-signing certificate. Windows SmartScreen may show an “Unknown publisher” warning on first launch. Download only from this repository and verify the archive with the accompanying `.sha256` file when needed.
 

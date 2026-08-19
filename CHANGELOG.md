@@ -35,5 +35,5 @@
 - 带 `portable.flag` 的免安装便携发布包
 - MSVC `/MT` 静态运行库构建和 SHA-256 发布校验
 
-[1.1.0]: https://github.com/Li2190158085/YanSnap/releases/tag/v1.1.0
-[1.0.0]: https://github.com/Li2190158085/YanSnap/releases/tag/v1.0.0
+[1.1.0]: https://github.com/Tosfire/YanSnap/releases/tag/v1.1.0
+[1.0.0]: https://github.com/Tosfire/YanSnap/releases/tag/v1.0.0

@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/Tosfire/YanSnap/releases/latest"><img src="https://img.shields.io/github/v/release/Tosfire/YanSnap?label=release" alt="GitHub Release"></a>
   <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D4" alt="Windows 10 / 11">
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/Li2190158085/YanSnap" alt="MIT License"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/Tosfire/YanSnap" alt="MIT License"></a>
 </p>
 
 <p align="center">
@@ -22,7 +22,7 @@ YanSnap 面向希望“解压即用”的 Windows 用户：无需安装、无需
 
 ## 下载
 
-前往 [GitHub Releases](https://github.com/Li2190158085/YanSnap/releases/latest) 下载：
+前往 [GitHub Releases](https://github.com/Tosfire/YanSnap/releases/latest) 下载：
 
 ```text
 YanSnap-*-win-x64-portable.zip
