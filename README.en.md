@@ -34,6 +34,7 @@ YanSnap is not currently signed with a commercial code-signing certificate. Wind
 - Free-region, window, multi-monitor, and negative-coordinate capture
 - Selection movement, eight resize handles, dimensions, and pixel magnifier
 - Rectangle, arrow, pen, Chinese text, and destructive pixel mosaic tools
+- In-capture OCR for Chinese, English, numbers, and URLs, with editable results
 - Undo, redo, delete, clipboard copy, and PNG export
 - Pin the current selection directly on screen
 - Pin clipboard images with `F3`
@@ -46,7 +47,7 @@ YanSnap is not currently signed with a commercial code-signing certificate. Wind
 
 1. Run `YanSnap.exe`. It stays in the system tray and does not capture immediately.
 2. Press `F1`, then drag a region or click a highlighted window.
-3. Press `Enter` to copy, or use the floating toolbar to annotate.
+3. Press `Enter` to copy, or use the floating toolbar to annotate or recognize text.
 4. Use “Pin to screen” to keep the selection visible above other windows.
 5. Right-click the YanSnap tray icon for capture, pin, settings, and exit actions.
 
@@ -57,6 +58,7 @@ YanSnap is not currently signed with a commercial code-signing certificate. Wind
 | `Enter` / `Ctrl+C` | Copy and finish |
 | `Ctrl+S` | Save as PNG |
 | `Ctrl+T` | Pin the current selection |
+| `Ctrl+R` | Recognize text inside the current selection |
 | `Ctrl+Z` / `Ctrl+Y` | Undo / redo |
 | `Delete` | Delete the selected annotation |
 | `Esc` | Cancel the current action or capture |
@@ -67,7 +69,7 @@ The detailed user guide is currently maintained in Chinese: [User Guide](docs/us
 
 ## Privacy
 
-Capture, annotation, clipboard conversion, and PNG encoding happen locally. YanSnap contains no account system, telemetry, advertising, screenshot-history database, cloud upload, or automatic updater.
+Capture, annotation, OCR, clipboard conversion, and PNG encoding happen locally. OCR uses Windows language components and does not upload the image or recognized text. YanSnap contains no account system, telemetry, advertising, screenshot-history database, cloud upload, or automatic updater.
 
 YanSnap writes a current-user Windows sign-in startup entry only after the user explicitly enables “Start with Windows.” Disabling the option removes that entry.
 
@@ -91,7 +93,7 @@ The MSVC Release build uses the static `/MT` runtime. The executable is written 
 
 Bug reports, compatibility feedback, and focused improvements are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) before submitting code. Report security issues according to [SECURITY.md](SECURITY.md).
 
-YanSnap intentionally remains a small, native, local-first tool. OCR, screen recording, cloud uploads, accounts, and large GUI frameworks are outside the current core scope.
+YanSnap intentionally remains a small, native, local-first tool. Screen recording, cloud uploads, accounts, and large GUI frameworks are outside the current core scope.
 
 ## Known limitations
 
@@ -99,6 +101,7 @@ YanSnap intentionally remains a small, native, local-first tool. OCR, screen rec
 - DRM-protected content may appear black
 - Some exclusive full-screen games are not captured correctly by GDI
 - HDR desktops may show brightness or color differences
+- OCR languages depend on the optical-character-recognition language features installed in Windows
 - Windows x64 only; the current UI language is Simplified Chinese
 
 ## Acknowledgements

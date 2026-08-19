@@ -16,6 +16,7 @@ enum class ToolbarAction {
     Mosaic,
     Undo,
     Redo,
+    Ocr,
     Pin,
     Save,
     Copy,

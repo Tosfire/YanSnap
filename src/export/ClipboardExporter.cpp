@@ -161,6 +161,38 @@ bool ClipboardExporter::Copy(HWND owner, const ImageData& image) {
     return success;
 }
 
+bool ClipboardExporter::CopyText(HWND owner, std::wstring_view text) {
+    if (text.empty() || !OpenClipboardWithRetry(owner)) {
+        return false;
+    }
+    if (!EmptyClipboard()) {
+        CloseClipboard();
+        return false;
+    }
+
+    const SIZE_T byteCount = (text.size() + 1) * sizeof(wchar_t);
+    HGLOBAL memory = GlobalAlloc(GMEM_MOVEABLE | GMEM_ZEROINIT, byteCount);
+    if (!memory) {
+        CloseClipboard();
+        return false;
+    }
+    void* destination = GlobalLock(memory);
+    if (!destination) {
+        GlobalFree(memory);
+        CloseClipboard();
+        return false;
+    }
+    std::memcpy(destination, text.data(), text.size() * sizeof(wchar_t));
+    GlobalUnlock(memory);
+
+    const bool success = SetClipboardData(CF_UNICODETEXT, memory) != nullptr;
+    if (!success) {
+        GlobalFree(memory);
+    }
+    CloseClipboard();
+    return success;
+}
+
 std::optional<ImageData> ClipboardExporter::Read(HWND owner) {
     if (!OpenClipboardWithRetry(owner)) {
         return std::nullopt;

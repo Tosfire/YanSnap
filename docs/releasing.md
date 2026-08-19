@@ -32,7 +32,7 @@ ctest --test-dir build -C Release --output-on-failure
 在项目根目录运行：
 
 ```powershell
-.\package.ps1 -Version 1.0.0 -Configuration Release
+.\package.ps1 -Version 1.1.0 -Configuration Release
 ```
 
 脚本会：
@@ -47,8 +47,8 @@ ctest --test-dir build -C Release --output-on-failure
 
 ```text
 release/
-├─ YanSnap-1.0.0-win-x64-portable.zip
-└─ YanSnap-1.0.0-win-x64-portable.sha256
+├─ YanSnap-1.1.0-win-x64-portable.zip
+└─ YanSnap-1.1.0-win-x64-portable.sha256
 ```
 
 ## 发布包检查
@@ -66,7 +66,7 @@ release/
 
 1. 将变更合并到 `main`。
 2. 确认工作区干净，`main` 与远端同步。
-3. 创建带注释或普通版本标签，例如 `v1.0.0`。
+3. 创建带注释或普通版本标签，例如 `v1.1.0`。
 4. 创建非草稿、非预发布的 GitHub Release。
 5. 上传 ZIP 和 `.sha256`。
 6. 发布说明包含主要变化、系统要求、已知限制和升级说明。
@@ -75,10 +75,10 @@ release/
 使用 GitHub CLI 的示例：
 
 ```powershell
-gh release create v1.0.0 `
-  release\YanSnap-1.0.0-win-x64-portable.zip `
-  release\YanSnap-1.0.0-win-x64-portable.sha256 `
-  --title "YanSnap v1.0.0" `
+gh release create v1.1.0 `
+  release\YanSnap-1.1.0-win-x64-portable.zip `
+  release\YanSnap-1.1.0-win-x64-portable.sha256 `
+  --title "YanSnap v1.1.0" `
   --notes-file release-notes.md
 ```
 

@@ -51,7 +51,7 @@ int DpiScaled(HWND window, int logicalPixels) {
 OverlayWindow::OverlayWindow(HINSTANCE instance, HWND owner, TrayIcon* tray, Settings settings,
                              PinCallback pinCallback)
     : instance_(instance), owner_(owner), tray_(tray), settings_(std::move(settings)),
-      pinCallback_(std::move(pinCallback)) {}
+      pinCallback_(std::move(pinCallback)), ocrPanel_(instance) {}
 
 OverlayWindow::~OverlayWindow() {
     if (saveThread_.joinable()) {
@@ -81,7 +81,8 @@ bool OverlayWindow::Start(DesktopImage image) {
     }
 
     window_ = CreateWindowExW(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, kOverlayClassName, L"YanSnap",
-                              WS_POPUP, desktop_.originX, desktop_.originY,
+                              WS_POPUP | WS_CLIPCHILDREN,
+                              desktop_.originX, desktop_.originY,
                               desktop_.width, desktop_.height,
                               owner_, nullptr, instance_, this);
     if (!window_) {
@@ -246,25 +247,31 @@ LRESULT OverlayWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         HandleAsyncSaveComplete(reinterpret_cast<void*>(lParam));
         return 0;
     case WM_LBUTTONDOWN:
-        if (saving_) {
+        if (saving_ || ocrPanel_.Visible()) {
             return 0;
         }
         OnLeftButtonDown(POINT{GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)});
         return 0;
     case WM_MOUSEMOVE:
-        if (saving_) {
+        if (saving_ || ocrPanel_.Visible()) {
             return 0;
         }
         OnMouseMove(POINT{GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)}, wParam);
         return 0;
     case WM_LBUTTONUP:
+        if (ocrPanel_.Visible()) {
+            if (GetCapture() == window_) {
+                ReleaseCapture();
+            }
+            return 0;
+        }
         if (saving_) {
             return 0;
         }
         OnLeftButtonUp(POINT{GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)});
         return 0;
     case WM_LBUTTONDBLCLK:
-        if (selection_) {
+        if (selection_ && !ocrPanel_.Visible()) {
             CopyAndFinish();
         }
         return 0;
@@ -272,7 +279,11 @@ LRESULT OverlayWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         if (saving_) {
             return 0;
         }
-        if (activeAnnotation_) {
+        if (ocrPanel_.Visible()) {
+            ocrPanel_.Hide();
+            SetFocus(window_);
+            InvalidateRect(window_, nullptr, FALSE);
+        } else if (activeAnnotation_) {
             activeAnnotation_.reset();
             dragMode_ = DragMode::None;
             InvalidateRect(window_, nullptr, FALSE);
@@ -293,6 +304,16 @@ LRESULT OverlayWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         }
         const bool control = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
         const int step = (GetKeyState(VK_SHIFT) & 0x8000) ? 10 : 1;
+        if (ocrPanel_.Visible()) {
+            if (wParam == VK_ESCAPE) {
+                ocrPanel_.Hide();
+                SetFocus(window_);
+                InvalidateRect(window_, nullptr, FALSE);
+            } else if (control && wParam == 'C') {
+                ocrPanel_.CopyAll();
+            }
+            return 0;
+        }
         if (wParam == VK_ESCAPE) {
             if (activeAnnotation_) {
                 activeAnnotation_.reset();
@@ -307,6 +328,8 @@ LRESULT OverlayWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             SaveAndFinish();
         } else if (control && wParam == 'T') {
             PinAndFinish();
+        } else if (control && wParam == 'R') {
+            RecognizeText();
         } else if (control && wParam == 'Z') {
             annotations_.Undo();
             selectedAnnotation_.reset();
@@ -339,6 +362,7 @@ LRESULT OverlayWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         if (GetCapture() == window_) {
             ReleaseCapture();
         }
+        ocrPanel_.Hide();
         window_ = nullptr;
         if (textInputFont_) {
             DeleteObject(textInputFont_);
@@ -366,14 +390,16 @@ void OverlayWindow::Paint() {
         DrawAnnotations(renderDc);
         DrawSelection(renderDc, *selection_, true);
         DrawDimensionLabel(renderDc, *selection_);
-        toolbar_.Update(ScreenToClientRect(*selection_),
-                        RectI{0, 0, desktop_.width, desktop_.height}, CurrentDpi());
-        toolbar_.Draw(renderDc, currentTool_, annotations_.CanUndo(), annotations_.CanRedo(),
-                      hoveredToolbarAction_, showToolbarTooltip_,
-                      RectI{0, 0, desktop_.width, desktop_.height});
-        if (dragMode_ == DragMode::Creating || dragMode_ == DragMode::Resizing ||
-            dragMode_ == DragMode::Annotating) {
-            DrawMagnifier(renderDc);
+        if (!ocrPanel_.Visible()) {
+            toolbar_.Update(ScreenToClientRect(*selection_),
+                            RectI{0, 0, desktop_.width, desktop_.height}, CurrentDpi());
+            toolbar_.Draw(renderDc, currentTool_, annotations_.CanUndo(), annotations_.CanRedo(),
+                          hoveredToolbarAction_, showToolbarTooltip_,
+                          RectI{0, 0, desktop_.width, desktop_.height});
+            if (dragMode_ == DragMode::Creating || dragMode_ == DragMode::Resizing ||
+                dragMode_ == DragMode::Annotating) {
+                DrawMagnifier(renderDc);
+            }
         }
     } else if (hoverWindow_) {
         RectI client = ScreenToClientRect(*hoverWindow_);
@@ -719,6 +745,9 @@ void OverlayWindow::HandleToolbarAction(ToolbarAction action) {
         annotations_.Redo();
         selectedAnnotation_.reset();
         break;
+    case ToolbarAction::Ocr:
+        RecognizeText();
+        return;
     case ToolbarAction::Pin:
         PinAndFinish();
         return;
@@ -950,6 +979,28 @@ void OverlayWindow::PinAndFinish() {
     const POINT position{selection_->left, selection_->top};
     pinCallback_(std::move(output), position);
     Finish();
+}
+
+void OverlayWindow::RecognizeText() {
+    if (!selection_) {
+        return;
+    }
+    CommitTextInput();
+    ImageData output = ImageComposer::Crop(desktop_, *selection_);
+    if (!output.Valid()) {
+        MessageBoxW(window_, L"无法生成文字识别图像。截图仍保持打开。",
+                    L"YanSnap", MB_OK | MB_ICONERROR);
+        return;
+    }
+    UpdateToolbarHover(ToolbarAction::None);
+    const RectI desktopClient{0, 0, desktop_.width, desktop_.height};
+    if (!ocrPanel_.Show(window_, ScreenToClientRect(*selection_), desktopClient,
+                        std::move(output))) {
+        MessageBoxW(window_, L"上一次文字识别仍在结束，请稍后再试。",
+                    L"YanSnap", MB_OK | MB_ICONINFORMATION);
+        return;
+    }
+    InvalidateRect(window_, nullptr, FALSE);
 }
 
 void OverlayWindow::BeginAsyncSave(std::wstring path, ImageData image, bool copied) {

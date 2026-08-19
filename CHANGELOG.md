@@ -2,6 +2,20 @@
 
 本项目遵循 [Semantic Versioning](https://semver.org/) 的版本编号方式。
 
+## [1.1.0] - 2026-08-19
+
+### 新增
+
+- 截图工具栏新增本地文字识别功能和 `Ctrl+R` 快捷键
+- 支持中文、英文、数字、常见符号和 URL
+- 识别结果直接显示在截图遮罩内，可编辑、全选和复制
+- 自动清理 Windows 中文 OCR 在连续汉字间产生的多余空格
+- 新增真实图片 OCR 集成测试
+
+### 变更
+
+- 源码构建统一使用 MSVC、CMake 和 Windows SDK
+
 ## [1.0.0] - 2026-07-28
 
 首次公开版本。
@@ -21,4 +35,5 @@
 - 带 `portable.flag` 的免安装便携发布包
 - MSVC `/MT` 静态运行库构建和 SHA-256 发布校验
 
+[1.1.0]: https://github.com/Li2190158085/YanSnap/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Li2190158085/YanSnap/releases/tag/v1.0.0

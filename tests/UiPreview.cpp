@@ -13,7 +13,7 @@
 namespace {
 
 snaplite::Toolbar g_toolbar;
-snaplite::ToolbarAction g_hovered = snaplite::ToolbarAction::Pin;
+snaplite::ToolbarAction g_hovered = snaplite::ToolbarAction::Ocr;
 
 void DrawPreview(HDC dc, const RECT& client) {
     snaplite::UniqueBrush backdrop(CreateSolidBrush(RGB(21, 25, 33)));

@@ -8,8 +8,8 @@ IDI_APP_ICON ICON "../assets/icon/YanSnap.ico"
 1 24 "YanSnap.manifest"
 
 1 VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -26,11 +26,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "YanSnap"
             VALUE "FileDescription", "YanSnap"
-            VALUE "FileVersion", "1.0.0"
+            VALUE "FileVersion", "1.1.0"
             VALUE "InternalName", "YanSnap"
             VALUE "OriginalFilename", "YanSnap.exe"
             VALUE "ProductName", "YanSnap"
-            VALUE "ProductVersion", "1.0.0"
+            VALUE "ProductVersion", "1.1.0"
         END
     END
     BLOCK "VarFileInfo"

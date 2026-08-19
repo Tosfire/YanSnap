@@ -9,11 +9,11 @@ namespace snaplite {
 
 namespace {
 
-constexpr int kButtonCount = 11;
+constexpr int kButtonCount = 12;
 constexpr std::array<ToolbarAction, kButtonCount> kActions = {
     ToolbarAction::Rectangle, ToolbarAction::Arrow, ToolbarAction::Pen,
     ToolbarAction::Text, ToolbarAction::Mosaic, ToolbarAction::Undo,
-    ToolbarAction::Redo, ToolbarAction::Pin, ToolbarAction::Save,
+    ToolbarAction::Redo, ToolbarAction::Ocr, ToolbarAction::Pin, ToolbarAction::Save,
     ToolbarAction::Copy, ToolbarAction::Cancel,
 };
 
@@ -71,6 +71,9 @@ void DrawIcon(HDC dc, ToolbarAction action, RECT rect, bool enabled) {
     case ToolbarAction::Redo:
         DrawTextW(dc, L"↷", -1, &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
         break;
+    case ToolbarAction::Ocr:
+        DrawTextW(dc, L"OCR", -1, &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+        break;
     case ToolbarAction::Pin: {
         MoveToEx(dc, cx - radius + 1, cy - radius + 1, nullptr);
         LineTo(dc, cx + radius - 1, cy - radius + 1);
@@ -113,6 +116,7 @@ const wchar_t* TooltipText(ToolbarAction action) {
     case ToolbarAction::Mosaic: return L"马赛克";
     case ToolbarAction::Undo: return L"撤销  Ctrl+Z";
     case ToolbarAction::Redo: return L"重做  Ctrl+Y";
+    case ToolbarAction::Ocr: return L"文字识别  Ctrl+R";
     case ToolbarAction::Pin: return L"贴到屏幕  Ctrl+T";
     case ToolbarAction::Save: return L"保存  Ctrl+S";
     case ToolbarAction::Copy: return L"复制并完成  Enter";

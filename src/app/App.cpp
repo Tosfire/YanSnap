@@ -157,7 +157,7 @@ void App::HandleCommand(UINT command) {
         ShowSettings();
         break;
     case ID_TRAY_ABOUT:
-        MessageBoxW(window_, L"YanSnap 1.0\n轻量、纯本地的 Windows 截图工具。", L"关于 YanSnap",
+        MessageBoxW(window_, L"YanSnap 1.1\n轻量、纯本地的 Windows 截图与文字识别工具。", L"关于 YanSnap",
                     MB_OK | MB_ICONINFORMATION);
         break;
     case ID_TRAY_EXIT:

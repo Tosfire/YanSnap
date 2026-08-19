@@ -14,6 +14,7 @@
 #include "common/Geometry.h"
 #include "common/Win32.h"
 #include "export/ImageData.h"
+#include "ocr/OcrPanel.h"
 #include "overlay/Toolbar.h"
 #include "settings/Settings.h"
 
@@ -24,7 +25,6 @@ class TrayIcon;
 class OverlayWindow {
 public:
     using PinCallback = std::function<void(ImageData, POINT)>;
-
     static constexpr UINT kSessionEndedMessage = WM_APP + 21;
     static constexpr UINT kAsyncSaveCompleteMessage = WM_APP + 22;
 
@@ -83,6 +83,7 @@ private:
     void CopyAndFinish();
     void SaveAndFinish();
     void PinAndFinish();
+    void RecognizeText();
     void BeginAsyncSave(std::wstring path, ImageData image, bool copied);
     void HandleAsyncSaveComplete(void* result);
     void Finish();
@@ -94,6 +95,7 @@ private:
     TrayIcon* tray_{};
     Settings settings_;
     PinCallback pinCallback_;
+    OcrPanel ocrPanel_;
     HWND window_{};
     DesktopImage desktop_;
     HDC originalDc_{};

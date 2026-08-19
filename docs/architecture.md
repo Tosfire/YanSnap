@@ -21,11 +21,12 @@ YanSnap 保持以下技术边界：
 | 屏幕捕获 | GDI 虚拟桌面捕获 |
 | 窗口边界 | User32 与 DWM |
 | 标注绘制 | GDI 与内存位图 |
+| 文字识别 | Windows.Media.Ocr（C++/WinRT） |
 | PNG 编码 | Windows Imaging Component |
 | 剪贴板 | Win32 Clipboard API，优先 `CF_DIBV5` |
 | 系统托盘 | `Shell_NotifyIcon` |
 | 配置 | INI 文件 |
-| 构建 | CMake、MSVC 或 MinGW-w64 |
+| 构建 | CMake、MSVC 与 Windows SDK |
 
 MSVC Release 使用静态运行库 `/MT`，因此便携包不需要另行安装 Visual C++ Runtime。
 
@@ -36,6 +37,7 @@ src/
 ├─ app/         应用生命周期、单实例、快捷键、托盘和开机启动
 ├─ capture/     虚拟桌面捕获和窗口识别
 ├─ overlay/     截图遮罩、选区交互和浮动工具栏
+├─ ocr/         本地文字识别和截图内嵌结果面板
 ├─ annotation/  标注对象与撤销/重做
 ├─ export/      图像合成、剪贴板和 PNG 编码
 ├─ pin/         置顶贴图窗口
@@ -76,10 +78,13 @@ src/
 ImageComposer 合成最终像素
         ├─→ ClipboardExporter
         ├─→ PngEncoder
-        └─→ PinWindow
+        ├─→ PinWindow
+        └─→ OcrPanel → Windows.Media.Ocr → 文本剪贴板
 ```
 
 捕获发生在遮罩显示之前。已有贴图会在捕获前临时隐藏，并在桌面图像获取完成后恢复，避免工具自身进入截图。
+
+OCR 使用当前选区的原始桌面像素，不包含用户后来添加的标注。点击工具栏 OCR 后，识别结果作为子面板显示在同一个截图遮罩内，截图会话不会结束，也不会创建独立的顶层结果窗口。
 
 ## 坐标与 DPI
 
@@ -114,7 +119,7 @@ ImageComposer 合成最终像素
 
 ## 剪贴板与 PNG
 
-`ClipboardExporter` 写入 `CF_DIBV5`，并在剪贴板被短暂占用时进行有限重试。读取剪贴板贴图时支持常见位图格式。
+`ClipboardExporter` 写入图像时使用 `CF_DIBV5`，写入 OCR 文本时使用 `CF_UNICODETEXT`，并在剪贴板被短暂占用时进行有限重试。读取剪贴板贴图时支持常见位图格式。
 
 `PngEncoder` 使用 WIC 写入 PNG，支持 Unicode 路径。自动保存使用时间戳文件名，并为同秒重名文件追加序号。
 
@@ -131,6 +136,12 @@ ImageComposer 合成最终像素
 - 复制、保存和恢复 100% 比例
 
 贴图关闭后通过窗口消息通知 `App` 释放对应对象。
+
+## 本地文字识别
+
+`OcrRecognizer` 将 BGRA 选区转换为 `SoftwareBitmap`，并调用 Windows.Media.Ocr。引擎优先选择已安装的中文语言，随后尝试用户配置语言、英文和其他可用语言。超过系统 OCR 最大尺寸的图片会等比例缩小后再识别。
+
+识别在线程中执行，不阻塞截图界面。`OcrPanel` 是截图遮罩的子窗口，提供加载状态、可编辑文本框、复制全部和返回截图操作。结果中的换行会规范为 Windows 换行格式，并移除连续汉字之间由系统 OCR 产生的多余空格。
 
 ## 配置与便携模式
 
@@ -167,6 +178,8 @@ HKCU\Software\Microsoft\Windows\CurrentVersion\Run
 - 复制到 Windows 剪贴板
 - 保存到用户选择的目录
 
+OCR 图像和识别结果不通过网络传输。识别文本只有在用户复制后才会写入 Windows 剪贴板。
+
 ## 依赖策略
 
 项目优先使用 Windows 系统组件。引入第三方依赖前应说明：
@@ -176,7 +189,7 @@ HKCU\Software\Microsoft\Windows\CurrentVersion\Run
 - 许可证
 - 为什么现有 Windows API 或小型内部实现无法满足需求
 
-OCR、录屏、云上传、账号系统和插件平台不属于当前核心架构。
+录屏、云上传、账号系统和插件平台不属于当前核心架构。
 
 ## 进一步阅读
 
